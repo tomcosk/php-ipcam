@@ -1,14 +1,6 @@
 <?php
 date_default_timezone_set("Europe/Bratislava");
-
-function __autoload($class) {
-	$class = "" . str_replace("\\", "/", $class) . ".php";
-	if(file_exists($class)) {
-		require_once($class);
-	} else {
-		throw new Exception("Class $class not found", 1001);
-	}
-}
+require_once 'autoload.php';
 
 $cam = new \Ipcam();
 $cam->setDebug(1);

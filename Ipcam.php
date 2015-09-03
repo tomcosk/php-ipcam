@@ -89,7 +89,6 @@ class Ipcam
 	}
 
 	public function composeImage() {
-		copy($this->filename, $this->workDir."/".$this->filename);
 		foreach ($this->dataSource as $key => $value) {
 			$this->log("executing: ".$value->getName(),2);
 			$value->apply(["folder"=>$this->workDir, "filename"=>$this->filename]);

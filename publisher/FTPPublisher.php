@@ -1,6 +1,7 @@
 <?php
 namespace publisher;
 use \Config as c;
+
 /**
 * 
 */

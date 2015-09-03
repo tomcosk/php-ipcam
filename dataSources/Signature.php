@@ -14,7 +14,6 @@ class Signature extends DataSource
 	protected $name = "Signature Plavba.sk";
 	protected $description = "Podpis plavba.sk, resp. logo";
 	protected $image = "dataSources/logo-plavba.png";
-	protected $dimensions = "300x200";
 
 	function __construct()
 	{
