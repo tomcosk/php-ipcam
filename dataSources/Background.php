@@ -1,4 +1,5 @@
 <?
+namespace dataSources;
 use \Imagick;
 
 /**

@@ -1,4 +1,5 @@
 <?
+namespace dataSources;
 
 abstract class DataSource 
 {

@@ -1,29 +1,33 @@
 <?php
 date_default_timezone_set("Europe/Bratislava");
-include("Ipcam.php");
-include("dataSources/Background.php");
-include("dataSources/Povodia.php");
-include("dataSources/Signature.php");
-include("dataSources/Weather.php");
 
-$cam = new Ipcam();
+function __autoload($class) {
+	$class = "" . str_replace("\\", "/", $class) . ".php";
+	if(file_exists($class)) {
+		require_once($class);
+	} else {
+		throw new Exception("Class $class not found", 1001);
+	}
+}
+
+$cam = new \Ipcam();
 $cam->setDebug(1);
-$cam->addDataSource(new Background())
+$cam->addDataSource(new \dataSources\Background())
 		->setPosX(0)
 		->setPosY(0)
 		->setWidth(230)
 		->setHeight(250)
 		->setFillColor("#ffffff99");
-$cam->addDataSource(new Povodia('http://www.povodia.sk/bh/sk/mereni_28.htm'))
+$cam->addDataSource(new \dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni_28.htm'))
 		->setPosX(10)
 		->setPosY(10)
 		->setFontSize(20);
-$cam->addDataSource(new Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
+$cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
 		->setPosX(10)
 		->setPosY(70)
 		->setFontSize(20);
-$cam->addDataSource(new Signature());
-
+$cam->addDataSource(new \dataSources\Signature());
+$cam->setPublisher(new publisher\FTPPublisher());
 
 while (true) {
 	$cam->composeImage()->publish();

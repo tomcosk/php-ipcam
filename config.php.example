@@ -1,5 +1,0 @@
-<?
-$ftpHost = "ftp.somewhere.com";
-$ftpLogin = "username";
-$ftpPass = "password";
-?>

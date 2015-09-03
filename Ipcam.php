@@ -1,7 +1,9 @@
 <?
+
 include("simple_html_dom.php");
-include("dataSources/DataSource.php");
-include("config.php");
+//include("dataSources/DataSource.php");
+use Config as c;
+
 date_default_timezone_set('CET');
 /**
 * 
@@ -10,6 +12,7 @@ class Ipcam
 {
 	
 	protected $dataSource = [];
+	protected $publisher;
 	protected $folder = null;
 	protected $workDir = null;
 	protected $filename = null;
@@ -37,6 +40,15 @@ class Ipcam
 	public function setDebug($level) {
 		$this->debug = $level;
 		return $this;
+	}
+	
+	public function setPublisher($publisher) {
+		$this->publisher = $publisher;
+		return $this;
+	}
+	
+	public function getPublisher() {
+		return $this->publisher;
 	}
 	
 	public function addDataSource($source) {
@@ -86,26 +98,7 @@ class Ipcam
 	}
 
 	public function publish() {
-		$ftp_server=$ftpHost; 
-		$ftp_user_name=$ftpLogin; 
-		$ftp_user_pass=$ftpPass; 
-		$file = $this->workDir."/".$this->filename;
-		$remote_file = "/web/ipcam/cam.jpg"; 
-
-		// set up basic connection 
-		$conn_id = ftp_connect($ftp_server); 
-
-		// login with username and password 
-		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass); 
-
-		// upload a file 
-		if (ftp_put($conn_id, $remote_file, $file, FTP_ASCII)) { 
-		    $this->log("successfully uploaded $file"); 
-		} else { 
-		    $this->log("There was a problem while uploading $file"); 
-	    } 
-		// close the connection 
-		ftp_close($conn_id); 
+		$this->publisher->publish();
 	}
 }
 ?>

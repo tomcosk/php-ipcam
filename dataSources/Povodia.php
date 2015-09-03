@@ -1,5 +1,6 @@
 <?
-
+namespace dataSources;
+use DateTime;
 /**
 * Povodia datasource
 */
@@ -64,7 +65,7 @@ class Povodia extends DataSource
 	}
 
 	public function apply($options) {
-		$currentTime =new DateTime();
+		$currentTime =new \DateTime();
 		$diff=$currentTime->diff($this->lastUpdated);
 		if ($diff->i > $this->cacheTimeMin) {
 			$this->getFreshData();
@@ -74,15 +75,15 @@ class Povodia extends DataSource
 		$filename = $options["filename"];
 		$src1 = new \Imagick($folder."/".$filename);
 		$icon = new \Imagick($this->icon);
-		$draw = new ImagickDraw();
-		$src1->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
+		$draw = new \ImagickDraw();
+		$src1->setImageVirtualPixelMethod(\Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 		/* Black text */
 		$draw->setFillColor('black');
 
 		/* Font properties */
 		$draw->setFont('Helvetica.ttf');
 		$draw->setFontSize( $this->fontSize );
-		$src1->compositeImage($icon, Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
+		$src1->compositeImage($icon, \Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
 
 		/* Create text */
 		$src1->annotateImage($draw, $icon->getImageWidth()+5+$this->posX, $this->posY+$this->fontSize*2, 0, $this->getValue()." m.n.m.");

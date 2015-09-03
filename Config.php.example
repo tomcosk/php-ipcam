@@ -1,0 +1,20 @@
+<?
+/**
+	Rename this file to Config.example and fill with your settings
+*/
+class Config {
+	
+	static protected $settings = [	"ftpHost" => "ftp.server.com",
+							"ftpLogin" => "login",
+							"ftpPass" => "password",
+							"folder" => "./",
+							"workDir" => "./workdir",
+							"filename" => "cam.jpg"
+							];
+	
+	static function get($key) {
+		return self::$settings[$key];
+	}
+
+}
+?>

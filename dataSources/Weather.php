@@ -1,4 +1,6 @@
 <?
+namespace dataSources;
+use DateTime;
 
 /**
 * Weather datasource
@@ -73,11 +75,11 @@ class Weather extends DataSource
 		$folder = $options["folder"];
 		$filename = $options["filename"];
 		$src1 = new \Imagick($folder."/".$filename);
-		$iconWind = new Imagick($this->iconWind);
-		$iconTemp = new Imagick($this->iconTemp);
+		$iconWind = new \Imagick($this->iconWind);
+		$iconTemp = new \Imagick($this->iconTemp);
 		$arrowImg = new \Imagick("dataSources/arrow.png");
-		$arrowImg->rotateImage(new ImagickPixel('#00000000'), $this->getValue()["windDir"]);
-		$draw = new ImagickDraw();
+		$arrowImg->rotateImage(new \ImagickPixel('#00000000'), $this->getValue()["windDir"]);
+		$draw = new \ImagickDraw();
 		/* Black text */
 		$draw->setFillColor('black');
 
@@ -88,9 +90,9 @@ class Weather extends DataSource
 		$posX1 = $iconTemp->getImageWidth()+$this->posX;
 		$posY1 = $iconTemp->getImageHeight()+$this->posY;
 
-		$src1->compositeImage($iconTemp, Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
-		$src1->compositeImage($iconWind, Imagick::COMPOSITE_DEFAULT, $this->posX, $posY1);
-		$src1->compositeImage($arrowImg, Imagick::COMPOSITE_DEFAULT, 170, $posY1+20);
+		$src1->compositeImage($iconTemp, \Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
+		$src1->compositeImage($iconWind, \Imagick::COMPOSITE_DEFAULT, $this->posX, $posY1);
+		$src1->compositeImage($arrowImg, \Imagick::COMPOSITE_DEFAULT, 170, $posY1+20);
 
 		$src1->annotateImage($draw, $iconTemp->getImageWidth()+5+$this->posX, $this->posY+$this->fontSize*2, 0, $this->getValue()["temp"]." C");
 		$src1->annotateImage($draw, $posX1, $posY1 + $this->fontSize * 2 , 0, $this->getValue()["windSpeed"]." m/s");
