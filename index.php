@@ -9,7 +9,7 @@ $cam->addDataSource(new \dataSources\Background())
 		->setPosY(0)
 		->setWidth(230)
 		->setHeight(250)
-		->setFillColor("#ffffff99");
+		->setFillColor("#ffffff99");	// last two chars are alpha channel (transparency)
 $cam->addDataSource(new \dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni_28.htm'))
 		->setPosX(10)
 		->setPosY(10)

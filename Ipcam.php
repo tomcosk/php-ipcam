@@ -91,7 +91,7 @@ class Ipcam
 	public function composeImage() {
 		foreach ($this->dataSource as $key => $value) {
 			$this->log("executing: ".$value->getName(),2);
-			$value->apply(["folder"=>$this->workDir, "filename"=>$this->filename]);
+			$value->apply(["folder"=>c::get("workDir"), "filename"=>c::get("filename")]);
 		}
 		return $this;
 	}
