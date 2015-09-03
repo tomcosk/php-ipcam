@@ -1,6 +1,11 @@
 # php-ipcam
 PHP IP Camera processor and publisher
 
+# Dependencies
+* ImageMagick extension to php - if you want to use some datasource which is doing some image manipulation
+* avconv binary to capture image from rtsp ip camera stream
+* opencv and python if you want to use facedetection and blur faces
+
 # Usage
 ```
 $cam = new Ipcam();
