@@ -7,7 +7,7 @@ PHP IP Camera processor and publisher
 * opencv and python if you want to use facedetection and blur faces
 
 # Usage
-```
+```php
 $cam = new Ipcam();
 $cam->setDebug(1);
 $cam->addDataSource(new Signature());
