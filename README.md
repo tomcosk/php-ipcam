@@ -12,3 +12,10 @@ while (true) {
 	sleep(30);
 }
 ```
+
+# List of available data Sources
+you can use these as insiration to for creating your custom one
+
+* Povodia - get actual height water from website
+* Weather - get actual weather for city
+* Signature - add watermark
