@@ -67,7 +67,8 @@ class Povodia extends DataSource
 	public function apply($options) {
 		$currentTime =new \DateTime();
 		$diff=$currentTime->diff($this->lastUpdated);
-		if ($diff->i > $this->cacheTimeMin) {
+		$diffMinutes = $diff->i + ($diff->h*60) + ($diff->d *24*60);
+		if ($diffMinutes > $this->cacheTimeMin) {
 			$this->getFreshData();
 		}
 

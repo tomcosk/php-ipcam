@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set("Europe/Bratislava");
 require_once 'autoload.php';
+use Config as c;
 
 $cam = new \Ipcam();
 $cam->setDebug(1);
@@ -21,11 +22,12 @@ $cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Ko
 		->setPosY(70)
 		->setFontSize(20);
 $cam->addDataSource(new \dataSources\Signature());
-$cam->setPublisher(new publisher\FTPPublisher());
+
+$cam->setPublisher(new publisher\SFTPPublisher());
 
 while (true) {
 	$cam->composeImage()->publish();
-	sleep(2);
+	sleep(c::get("sleep"));
 }
 
 ?>
