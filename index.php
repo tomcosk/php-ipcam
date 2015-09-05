@@ -4,6 +4,8 @@ require_once 'autoload.php';
 
 $cam = new \Ipcam();
 $cam->setDebug(1);
+$cam->addDataSource(new \dataSources\Capture("rtsp://192.168.1.161:554/11"));
+//$cam->addDataSource(new \dataSources\Facedetect());
 $cam->addDataSource(new \dataSources\Background())
 		->setPosX(0)
 		->setPosY(0)
@@ -23,7 +25,7 @@ $cam->setPublisher(new publisher\FTPPublisher());
 
 while (true) {
 	$cam->composeImage()->publish();
-	sleep(30);
+	sleep(2);
 }
 
 ?>
