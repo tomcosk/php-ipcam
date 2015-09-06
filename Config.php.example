@@ -13,7 +13,7 @@ class Config {
 							"folder" => "./",
 							"workDir" => "./workdir",
 							"filename" => "cam.jpg",
-							"sleep" => 5
+							"sleep" => 5	// do it every number of seconds
 							];
 	
 	static function get($key) {

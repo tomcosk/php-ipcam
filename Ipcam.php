@@ -18,6 +18,8 @@ class Ipcam
 	protected $filename = null;
 	protected $debug = 1;
 
+	protected $timeStamp;
+
 	function __construct($folder = "./", $workDir = "./workdir", $filename = "cam.jpg")
 	{
 		$this->setFolder($folder);
@@ -89,6 +91,8 @@ class Ipcam
 	}
 
 	public function composeImage() {
+		$this->timeStamp = new \DateTime();
+
 		foreach ($this->dataSource as $key => $value) {
 			$this->log("executing: ".$value->getName(),2);
 			$value->apply(["folder"=>c::get("workDir"), "filename"=>c::get("filename")]);
@@ -98,6 +102,11 @@ class Ipcam
 
 	public function publish() {
 		$this->publisher->publish();
+		$currentTime =new \DateTime();
+		$diff=$currentTime->diff($this->timeStamp);
+		$diffSeconds = $diff->s + ($diff->i*60) + ($diff->h*60) + ($diff->d *24*60);
+		$this->log("Took: $diffSeconds secs");
+		return $diffSeconds;
 	}
 }
 ?>

@@ -17,7 +17,9 @@ $cam->addDataSource(new \dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni
 		->setPosX(10)
 		->setPosY(10)
 		->setFontSize(20);
-$cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
+
+//$cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
+$cam->addDataSource(new \dataSources\OpenWeatherMap('http://api.openweathermap.org/data/2.5/weather?id=723224&units=metric'))
 		->setPosX(10)
 		->setPosY(70)
 		->setFontSize(20);
@@ -26,8 +28,14 @@ $cam->addDataSource(new \dataSources\Signature());
 $cam->setPublisher(new publisher\SFTPPublisher());
 
 while (true) {
-	$cam->composeImage()->publish();
-	sleep(c::get("sleep"));
+	$time = $cam->composeImage()->publish();
+	$sleepTime = c::get("sleep")-$time;
+	if ($sleepTime < 0) {
+		$sleepTime = 0;
+	}
+	// we want to do it every number of seconds. So we must calculate the time spent on processing and substract it from this time of sleep
+	$cam->log("Sleeping $sleepTime secs");
+	sleep($sleepTime);
 }
 
 ?>
