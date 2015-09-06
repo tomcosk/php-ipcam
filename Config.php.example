@@ -13,6 +13,7 @@ class Config {
 							"folder" => "./",
 							"workDir" => "./workdir",
 							"filename" => "cam.jpg",
+							"openWeatherApiKey" => "Your_Key_Here",
 							"sleep" => 5	// do it every number of seconds
 							];
 	

@@ -20,6 +20,7 @@ $cam->addDataSource(new \dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni
 
 //$cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
 $cam->addDataSource(new \dataSources\OpenWeatherMap('http://api.openweathermap.org/data/2.5/weather?id=723224&units=metric'))
+		->setAPIKey(c::get("openWeatherApiKey"))
 		->setPosX(10)
 		->setPosY(70)
 		->setFontSize(20);

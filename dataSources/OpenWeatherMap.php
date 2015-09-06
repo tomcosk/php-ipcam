@@ -38,6 +38,7 @@ class OpenWeatherMap extends DataSource
 
 	public function setAPIKey($key) {
 		$this->appId = $key;
+		return $this;
 	}
 
 	public function getUrl() {
