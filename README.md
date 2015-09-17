@@ -25,3 +25,4 @@ you can use these as insiration to for creating your custom one
 * Povodia - get actual height water from website
 * Weather - get actual weather for city
 * Signature - add watermark
+* Capture - capture 1 actual frame from RTSP ip camera stream
