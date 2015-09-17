@@ -98,7 +98,7 @@ class Weather extends DataSource
 		$src1->annotateImage($draw, $posX1, $posY1 + $this->fontSize * 2 , 0, $this->getValue()["windSpeed"]." m/s");
 		$src1->writeImage($folder."/".$filename);
 		$this->log('Info written to image');
-
+		return true;
 	}
 }
 

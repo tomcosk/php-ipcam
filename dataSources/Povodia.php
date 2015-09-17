@@ -90,6 +90,7 @@ class Povodia extends DataSource
 		$src1->annotateImage($draw, $icon->getImageWidth()+5+$this->posX, $this->posY+$this->fontSize*2, 0, $this->getValue()." m.n.m.");
 		$src1->writeImage($folder."/".$filename);
 		$this->log('Info written to image');
+		return true;
 
 	}
 }

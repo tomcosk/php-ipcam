@@ -17,6 +17,7 @@ class Ipcam
 	protected $workDir = null;
 	protected $filename = null;
 	protected $debug = 1;
+	protected $lastReturnValue = true;
 
 	protected $timeStamp;
 
@@ -94,14 +95,24 @@ class Ipcam
 		$this->timeStamp = new \DateTime();
 
 		foreach ($this->dataSource as $key => $value) {
+			$ret = true;
 			$this->log("executing: ".$value->getName(),2);
-			$value->apply(["folder"=>c::get("workDir"), "filename"=>c::get("filename")]);
+			$ret = $value->apply(["folder"=>c::get("workDir"), "filename"=>c::get("filename")]);
+			if (!$ret) {
+				$this->lastReturnValue = $ret;
+				break;
+			}
+			$this->lastReturnValue = $ret;
 		}
 		return $this;
 	}
 
 	public function publish() {
-		$this->publisher->publish();
+		if ($this->lastReturnValue) {
+			$this->publisher->publish();
+		} else {
+			$this->log("Not publishing. Somethign goes wrong in some datasource");
+		}
 		$currentTime =new \DateTime();
 		$diff=$currentTime->diff($this->timeStamp);
 		$diffSeconds = $diff->s + ($diff->i*60) + ($diff->h*60) + ($diff->d *24*60);

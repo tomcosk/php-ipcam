@@ -27,7 +27,7 @@ class SFTPPublisher extends Publisher
 		    $this->log("Connected to server $ftp_server");
 		    return true;
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 		    echo $e->getMessage() . "\n";
    		    $this->log("Not connected to server $ftp_server");
@@ -37,7 +37,7 @@ class SFTPPublisher extends Publisher
 	
 	public function publish() {
 
-		if ($this->connId != null) {
+		if ($this->connId->isConnected()) {
 			try
 			{
 				$file = c::get("workDir")."/".c::get("filename");
@@ -49,9 +49,10 @@ class SFTPPublisher extends Publisher
 			    $this->connId->delete(c::get("remoteFileLock"));
 			    $this->log("Successfully uploaded file");
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 			    echo $e->getMessage() . "\n";
+				$this->connect();
 			}
 		} else {
 			if($this->connect()) {

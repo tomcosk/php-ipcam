@@ -39,9 +39,15 @@ class Capture extends DataSource
 		$folder = $options["folder"];
 		$filename = $options["filename"];
 		$cmd = "avconv -rtsp_transport tcp -i ".$this->url." -f image2 -async 1 -vcodec mjpeg -vframes 1 -y $folder/$filename"; 
-		exec($cmd);
+		exec($cmd, $out, $ret);
 		$this->log($cmd, 2);
+		$this->log("exit code: $ret", 2);
+		if ($ret > 0) {
+			$this->log("Something goes wrong. Exit code: $ret", 1, "red");
+			return false;
+		}
 		$this->log("Frame captured");
+		return true;
 	}
 }
 

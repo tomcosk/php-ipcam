@@ -9,18 +9,31 @@ abstract class DataSource
 
 	public $cacheTimeMin = 10;
 	protected $debug = 1;
+	protected $colors = [
+					"black" => "\033[30m",
+					"green" => "\033[32m",
+					"red" => "\033[31m"
+					];
 
 	function __construct()
 	{
 
 	}
 
-	public function log($msg, $level = 1) {
+	public function log($msg, $level = 1, $color="black") {
+		$colorCode = $this->colors["black"];
 		if ($level <= $this->debug) {
 			$date = date("d.m.Y G:i:s");
 			$callers=debug_backtrace();
 			$class = $callers[1]["class"];
-			echo "[$date] [$class] $msg\n";
+			if (is_array($msg)) {
+				print_r($msg);
+			} else {
+				if (!empty($this->color) && !empty($this->colors[$color])) {
+					$colorCode = $this->colors[$color];
+				}
+				echo "$colorCode [$date] [$class] $msg\n";
+			}
 		}
 	}
 

@@ -58,6 +58,7 @@ class Signature extends DataSource
 		$src1->compositeImage($src2, Imagick::COMPOSITE_DEFAULT, $src1->getImageWidth()-$src2->getImageWidth(), $src1->getImageHeight()-$src2->getImageHeight());
 		$src1->writeImage($folder."/".$filename);
 		$this->log("Added watermark");
+		return true;
 	}
 }
 

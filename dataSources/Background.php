@@ -57,19 +57,23 @@ class Background extends DataSource
 	public function apply($options) {
 		$folder = $options["folder"];
 		$filename = $options["filename"];
-		$src1 = new \Imagick($folder."/".$filename);
+		try {
+			$src1 = new \Imagick($folder."/".$filename);
 
-	    $bg = new \Imagick();
-	    $bg->newImage($this->width, $this->height, $this->fillColor);
-	    $bg->setImageFormat("png");
+		    $bg = new \Imagick();
+		    $bg->newImage($this->width, $this->height, $this->fillColor);
+		    $bg->setImageFormat("png");
 
-//		$src1->setGravity(Imagick::GRAVITY_SOUTHEAST);
-//		var_dump($options);
-		$src1->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-//		$src1->setImageArtifact('compose:args', "1,0,-0.5,0.5");
-		$src1->compositeImage($bg, Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
-		$src1->writeImage($folder."/".$filename);
-		$this->log("Added watermark");
+			$src1->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
+	//		$src1->setImageArtifact('compose:args', "1,0,-0.5,0.5");
+			$src1->compositeImage($bg, Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
+			$src1->writeImage($folder."/".$filename);
+			$this->log("Added watermark");
+			return true;
+		} catch(\ImagickException $e) {
+			$this->log($e->getMessage());
+			return false;
+		}
 	}
 }
 
