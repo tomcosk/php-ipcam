@@ -17,6 +17,7 @@ while (true) {
 	sleep(30);
 }
 ```
+For more complex usage, see index.php
 
 # List of available data Sources
 you can use these as insiration to for creating your custom one
