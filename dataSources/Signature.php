@@ -20,31 +20,46 @@ class Signature extends DataSource
 		return $this;
 	}
 
+	/**
+	 * @param String $url
+	 * @return \dataSources\Signature
+	 */
 	public function setUrl($url) {
 		$this->url = $url;
 		$this->html = file_get_html($this->url);
 		return $this;
 	}
 
+	/**
+	 * @return String
+	 */
 	public function getUrl() {
 		return $this->url;
 	}
+	/* (non-PHPdoc)
+	 * @see \dataSources\DataSource::getName()
+	 */
 	public function getName() {
 		return $this->name;
 	}
 
+	/* (non-PHPdoc)
+	 * @see \dataSources\DataSource::getDescription()
+	 */
 	public function getDescription() {
 		return $this->description;
 	}
 
-	public function getImage() {
-
-	}
-
+	/**
+	 * @return string
+	 */
 	public function getValue() {
 		return "Plavba.sk";
 	}
 
+	/* (non-PHPdoc)
+	 * @see \dataSources\DataSource::apply()
+	 */
 	public function apply($options) {
 		$folder = $options["folder"];
 		$filename = $options["filename"];

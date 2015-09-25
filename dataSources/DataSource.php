@@ -1,4 +1,8 @@
 <?
+/**
+ * @author tomas.igrini
+ * Abstract datasource class
+ */
 namespace dataSources;
 
 abstract class DataSource 
@@ -20,6 +24,13 @@ abstract class DataSource
 
 	}
 
+	
+	/**
+	 * Datasource Log function
+	 * @param String $msg
+	 * @param number $level
+	 * @param string $color
+	 */
 	public function log($msg, $level = 1, $color="black") {
 		$colorCode = $this->colors["black"];
 		if ($level <= $this->debug) {
@@ -37,20 +48,35 @@ abstract class DataSource
 		}
 	}
 
+	/**
+	 * @param Int $level
+	 */
 	public function setDebug($level) {
 		$this->debug = $level;
 	}
 
+	/**
+	 * @param Int $x
+	 * @return \dataSources\DataSource
+	 */
 	public function setPosX($x) {
 		$this->posX = $x;
 		return $this;
 	}
 
+	/**
+	 * @param Int $y
+	 * @return \dataSources\DataSource
+	 */
 	public function setPosY($y) {
 		$this->posY = $y;
 		return $this;
 	}
 
+	/**
+	 * @param Int $size
+	 * @return \dataSources\DataSource
+	 */
 	public function setFontSize($size) {
 		$this->fontSize = $size;
 		return $this;

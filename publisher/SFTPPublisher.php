@@ -1,11 +1,13 @@
 <?php
+/**
+ * @author tomas.igrini
+ * Publisher for uploading file to a SFTP (secure FTP)
+ *
+ */
 namespace publisher;
 use \Config as c;
 use libs\SFTPConnection;
 
-/**
-* 
-*/
 class SFTPPublisher extends Publisher
 {
 
@@ -15,6 +17,9 @@ class SFTPPublisher extends Publisher
 		$this->connect();
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public function connect() {
 		$ftp_server=c::get("ftpHost");
 		$ftp_user_name=c::get("ftpLogin");
@@ -35,6 +40,9 @@ class SFTPPublisher extends Publisher
 		}
 	}
 	
+	/* (non-PHPdoc)
+	 * @see \publisher\Publisher::publish()
+	 */
 	public function publish() {
 
 		if ($this->connId->isConnected()) {
