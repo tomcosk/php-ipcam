@@ -19,6 +19,16 @@ while (true) {
 ```
 For more complex usage, see index.php
 
+## Run script from command line
+* basic run 
+```
+php index.php
+```
+* run in background
+```
+nohup php index.php &
+```
+
 # List of available data Sources
 you can use these as insiration to for creating your custom one
 
