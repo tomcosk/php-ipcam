@@ -26,3 +26,9 @@ you can use these as insiration to for creating your custom one
 * Weather - get actual weather for city
 * Signature - add watermark
 * Capture - capture 1 actual frame from RTSP ip camera stream
+
+# List of available publishers
+you can use these publishers as inspiration of how to publish file to remote server
+
+* FTPPublusher - publish via FTP
+* SFTPPublusher - publish via SFTP (Secure FTP)
