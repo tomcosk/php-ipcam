@@ -1,6 +1,8 @@
 # php-ipcam
-PHP IP Camera processor and publisher
-Usefull for capturing image from IP camera using RTSP protocol, then insert some usefull information into picture like current weather, watermark, do facedetect and blur faces, etc.
+PHP IP Camera processor and publisher.
+Usefull for:
+1. capturing image from IP camera using RTSP protocol
+2. then insert some usefull information into picture like current weather, watermark, do facedetect and blur faces, etc. 3. then publish it to some web site via publisher.
 
 # Dependencies
 * ImageMagick extension to php - if you want to use some datasource which is doing some image manipulation
@@ -20,7 +22,7 @@ while (true) {
 ```
 For more complex usage, see index.php
 
-## Run script from command line
+### Run script from command line
 * basic run 
 ```
 php index.php
