@@ -1,8 +1,8 @@
 <?
 
 include("simple_html_dom.php");
-//include("dataSources/DataSource.php");
 use Config as c;
+use dataSources\DataSource;
 
 date_default_timezone_set('CET');
 /**
@@ -21,6 +21,11 @@ class Ipcam
 
 	protected $timeStamp;
 
+	/**
+	 * @param string $folder
+	 * @param string $workDir
+	 * @param string $filename
+	 */
 	function __construct($folder = "./", $workDir = "./workdir", $filename = "cam.jpg")
 	{
 		$this->setFolder($folder);
@@ -28,32 +33,56 @@ class Ipcam
 		$this->setFilename($filename);
 	}
 
+	/**
+	 * @param String $path
+	 */
 	public function setFolder($path) {
 		$this->folder = $path;
 	}
 	
+	/**
+	 * @param String $path
+	 */
 	public function setWorkDir($path) {
 		$this->workDir = $path;
 	}
 	
+	/**
+	 * @param String $filename
+	 */
 	public function setFilename($filename) {
 		$this->filename = $filename;
 	}
 
+	/**
+	 * @param Int $level
+	 * @return Ipcam
+	 */
 	public function setDebug($level) {
 		$this->debug = $level;
 		return $this;
 	}
 	
+	/**
+	 * @param Publisher $publisher
+	 * @return Ipcam
+	 */
 	public function setPublisher($publisher) {
 		$this->publisher = $publisher;
 		return $this;
 	}
 	
+	/**
+	 * @return Publisher
+	 */
 	public function getPublisher() {
 		return $this->publisher;
 	}
 	
+	/**
+	 * @param DataSource $source
+	 * @return multitype:
+	 */
 	public function addDataSource($source) {
 		$source->setDebug($this->debug);
 		$this->dataSource[] = $source;
@@ -61,6 +90,10 @@ class Ipcam
 		return $this->dataSource[count($this->dataSource)-1];
 	}
 
+	/**
+	 * @param Int $index
+	 * @return Array:
+	 */
 	public function getDataSource($index) {
 		return $this->dataSource[$index];
 	}
@@ -69,12 +102,20 @@ class Ipcam
 
 	}
 
+	/**
+	 *	echo list of datasources 
+	 */
 	public function displayDataSources() {
 		foreach ($this->dataSource as $key => $value) {
 			echo $key." => ".$value->getName()."\n";
 		}
 	}
 
+	/**
+	 * IPCam log method
+	 * @param String $msg
+	 * @param Int $level
+	 */
 	public function log($msg, $level=1) {
 		if ($level <= $this->debug) {
 			$date = date("d.m.Y G:i:s");
@@ -82,6 +123,9 @@ class Ipcam
 		}
 	}
 
+	/**
+	 *	echo the values of datasources 
+	 */
 	public function getValues() {
 		foreach ($this->dataSource as $key => $value) {
 			$val = $value->getValue();
@@ -91,6 +135,10 @@ class Ipcam
 		}
 	}
 
+	/**
+	 * Execute every datasource
+	 * @return Ipcam
+	 */
 	public function composeImage() {
 		$this->timeStamp = new \DateTime();
 
@@ -107,6 +155,10 @@ class Ipcam
 		return $this;
 	}
 
+	/**
+	 * Publish via publisher
+	 * @return number
+	 */
 	public function publish() {
 		if ($this->lastReturnValue) {
 			$this->publisher->publish();

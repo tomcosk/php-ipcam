@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author tomas.igrini
+ * Abstract Publisher class
+ *
+ */
 namespace publisher;
 
 abstract class Publisher
@@ -7,6 +12,11 @@ abstract class Publisher
 	
 	protected $debug = 1;
 	
+	/**
+	 * Publisher log method
+	 * @param String $msg
+	 * @param Int $level
+	 */
 	public function log($msg, $level = 1) {
 		if ($level <= $this->debug) {
 			$date = date("d.m.Y G:i:s");
@@ -16,6 +26,9 @@ abstract class Publisher
 		}
 	}
 
+	/**
+	 * @param Int $level
+	 */
 	public function setDebug($level) {
 		$this->debug = $level;
 	}
