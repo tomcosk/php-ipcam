@@ -12,7 +12,8 @@ abstract class DataSource
 	protected $colors = [
 					"black" => "\033[30m",
 					"green" => "\033[32m",
-					"red" => "\033[31m"
+					"red" => "\033[31m",
+					"default" => ""
 					];
 
 	function __construct()
@@ -20,8 +21,8 @@ abstract class DataSource
 
 	}
 
-	public function log($msg, $level = 1, $color="black") {
-		$colorCode = $this->colors["black"];
+	public function log($msg, $level = 1, $color="default") {
+		$colorCode = $this->colors[$color];
 		if ($level <= $this->debug) {
 			$date = date("d.m.Y G:i:s");
 			$callers=debug_backtrace();
@@ -32,7 +33,7 @@ abstract class DataSource
 				if (!empty($this->color) && !empty($this->colors[$color])) {
 					$colorCode = $this->colors[$color];
 				}
-				echo "$colorCode [$date] [$class] $msg\n";
+				echo $colorCode."[$date] [$class] $msg\n";
 			}
 		}
 	}
