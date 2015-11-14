@@ -30,7 +30,7 @@ $cam->addDataSource(new Tomcosk\dataSources\OpenWeatherMap('http://api.openweath
 		->setFontSize(20);
 $cam->addDataSource(new Tomcosk\dataSources\Signature());
 
-//$cam->setPublisher(new publisher\SFTPPublisher());
+//$cam->setPublisher(new Tomcosk\publisher\SFTPPublisher());
 
 while (true) {
 	$time = $cam->composeImage()->publish();
