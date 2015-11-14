@@ -6,7 +6,7 @@
  */
 namespace Tomcosk\publisher;
 use Tomcosk\Config as c;
-use Tomcosk\SFTPConnection;
+use Tomcosk\libs\SFTPConnection;
 
 class SFTPPublisher extends Publisher
 {
