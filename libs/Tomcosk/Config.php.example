@@ -1,0 +1,39 @@
+<?php
+/**
+*	Rename this file to Config.example and fill with your settings
+*/
+class Config {
+	
+	static protected $settings = [	"ftpHost" => "ftp.server.com",
+							"ftpLogin" => "username",
+							"ftpPass" => "password",
+							"remoteFile" => "/web/ipcam/cam.jpg",
+							"remoteFileLock" => "/web/ipcam/cam.lock",
+							"fileLock" => "./libs/Tomcosk/publisher/cam.lock",
+							"folder" => "./",
+							"workDir" => "./workdir",
+							"filename" => "cam.jpg",
+							"openWeatherApiKey" => "Your_Key_Here",
+							"sleep" => 5,	// do it every number of seconds
+							"DB" => array(
+									'driver'    => 'mysql', // Db driver
+									'host'      => 'localhost',
+									'database'  => 'cam',
+									'username'  => 'root',
+									'password'  => '',
+									'charset'   => 'utf8', // Optional
+									'collation' => 'utf8_unicode_ci', // Optional
+									'prefix'    => '', // Table prefix, optional
+									'options'   => array( // PDO constructor options, optional
+										\PDO::ATTR_TIMEOUT => 5,
+										\PDO::ATTR_EMULATE_PREPARES => false,
+									),
+								)
+							];
+	
+	static function get($key) {
+		return self::$settings[$key];
+	}
+
+}
+?>

@@ -1,9 +1,11 @@
-<?
+<?php
 /**
  * @author tomas.igrini
  * Abstract datasource class
  */
-namespace dataSources;
+namespace Tomcosk\dataSources;
+
+use Tomcosk\Config as c;
 
 abstract class DataSource 
 {
@@ -12,6 +14,8 @@ abstract class DataSource
 	abstract public function apply($options);
 
 	public $cacheTimeMin = 10;
+	protected $storage = null;
+	protected $storageConnection = null;
 	protected $debug = 1;
 	protected $colors = [
 					"black" => "\033[30m",
@@ -23,6 +27,39 @@ abstract class DataSource
 	function __construct()
 	{
 
+	}
+
+	public function setStorageConnection($conn) {
+		$this->storageConnection = $conn;
+		$this->setStorage(new \Pixie\QueryBuilder\QueryBuilderHandler($conn));
+		return $this;
+	}
+
+	public function enableStorage($config = null) {
+		if (empty($config)) {
+			$config = c::get("DB");
+		}
+		new \Pixie\Connection('mysql', $config, 'QB');
+		$row = QB::table('stats')->find(3);
+		var_dump($row);
+
+		return $this;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getStorage()
+	{
+		return $this->storage;
+	}
+
+	/**
+	 * @param null $storage
+	 */
+	public function setStorage($storage)
+	{
+		$this->storage = $storage;
 	}
 
 	/**

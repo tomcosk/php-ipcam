@@ -1,10 +1,10 @@
-<?
-
+<?php
+namespace Tomcosk;
 include("simple_html_dom.php");
-use Config as c;
-use dataSources\DataSource;
+use Tomcosk\Config as c;
+use Tomcosk\dataSources\DataSource;
 
-date_default_timezone_set('CET');
+//date_default_timezone_set('CET');
 /**
 * 
 */
@@ -12,7 +12,7 @@ class Ipcam
 {
 	
 	protected $dataSource = [];
-	protected $publisher;
+	protected $publisher = null;
 	protected $folder = null;
 	protected $workDir = null;
 	protected $filename = null;
@@ -160,14 +160,18 @@ class Ipcam
 	 * @return number
 	 */
 	public function publish() {
-		if ($this->lastReturnValue) {
-			$this->publisher->publish();
+		if(!empty($this->publisher)) {
+			if ($this->lastReturnValue) {
+				$this->publisher->publish();
+			} else {
+				$this->log("Not publishing. Somethign goes wrong in some datasource");
+			}
 		} else {
-			$this->log("Not publishing. Somethign goes wrong in some datasource");
+			$this->log("Not publishing. Publisher not found");
 		}
-		$currentTime =new \DateTime();
-		$diff=$currentTime->diff($this->timeStamp);
-		$diffSeconds = $diff->s + ($diff->i*60) + ($diff->h*60) + ($diff->d *24*60);
+		$currentTime = new \DateTime();
+		$diff = $currentTime->diff($this->timeStamp);
+		$diffSeconds = $diff->s + ($diff->i * 60) + ($diff->h * 60) + ($diff->d * 24 * 60);
 		$this->log("Took: $diffSeconds secs");
 		return $diffSeconds;
 	}

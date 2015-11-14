@@ -1,5 +1,5 @@
-<?
-namespace dataSources;
+<?php
+namespace Tomcosk\dataSources;
 use \Imagick;
 
 /**

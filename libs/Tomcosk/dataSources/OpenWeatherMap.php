@@ -1,5 +1,5 @@
-<?
-namespace dataSources;
+<?php
+namespace Tomcosk\dataSources;
 use DateTime;
 
 /**
@@ -16,12 +16,13 @@ class OpenWeatherMap extends DataSource
 	protected $fontSize = 20;
 	protected $posX = 0;
 	protected $posY = 0;
-	protected $iconWind = "dataSources/icon-wind.png";
-	protected $iconTemp = "dataSources/icon-temp.png";
+	protected $iconWind = "libs/Tomcosk/dataSources/icon-wind.png";
+	protected $iconTemp = "libs/Tomcosk/dataSources/icon-temp.png";
 	protected $appId = null;
 
-	function __construct($url, $x = 10, $y = 90, $fontsize = 20)
+	function __construct($url, $appId=null, $x = 10, $y = 90, $fontsize = 20)
 	{
+		$this->setAPIKey($appId);
 		$this->setUrl($url);
 		$this->setPosY($y);
 		$this->setPosX($x);
@@ -83,7 +84,7 @@ class OpenWeatherMap extends DataSource
 		$src1 = new \Imagick($folder."/".$filename);
 		$iconWind = new \Imagick($this->iconWind);
 		$iconTemp = new \Imagick($this->iconTemp);
-		$arrowImg = new \Imagick("dataSources/arrow.png");
+		$arrowImg = new \Imagick("libs/Tomcosk/dataSources/arrow.png");
 		$arrowImg->rotateImage(new \ImagickPixel('#00000000'), $this->getValue()["windDir"]);
 		$draw = new \ImagickDraw();
 		/* Black text */

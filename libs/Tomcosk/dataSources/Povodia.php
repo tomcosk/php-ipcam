@@ -1,5 +1,5 @@
-<?
-namespace dataSources;
+<?php
+namespace Tomcosk\dataSources;
 use DateTime;
 /**
 * Povodia datasource
@@ -16,7 +16,7 @@ class Povodia extends DataSource
 	protected $fontSize = 20;
 	protected $posX = 0;
 	protected $posY = 0;
-	protected $icon = "dataSources/icon-wave.png";
+	protected $icon = "libs/Tomcosk/dataSources/icon-wave.png";
 
 	function __construct($url, $x = 0, $y = 0, $fontsize = 20)
 	{
@@ -29,7 +29,7 @@ class Povodia extends DataSource
 
 	public function setUrl($url) {
 		$this->url = $url;
-		$this->getFreshData();
+//		$this->getFreshData();
 		return $this;
 	}
 
@@ -61,10 +61,26 @@ class Povodia extends DataSource
 	protected function getFreshData() {
 		$this->html = file_get_html($this->url);
 		$this->lastUpdated = new DateTime();
+		if (!empty($this->getStorage())) {
+			$data = [
+				"stat_id" => 3,
+				"value" => $this->getValue(),
+				"created" => date('Y-m-d H:i:s')
+			];
+			$insertId = $this->getStorage()->table('stat_values')->insert($data);
+			if (!empty($insertId)) {
+				$this->log("Value saved to DB");
+			} else {
+				$this->log("Value NOT saved to DB");
+			}
+		}
 		$this->log("Getting fresh data");
 	}
 
 	public function apply($options) {
+		if(empty($this->lastUpdated)) {
+			$this->getFreshData();
+		}
 		$currentTime =new \DateTime();
 		$diff=$currentTime->diff($this->lastUpdated);
 		$diffMinutes = $diff->i + ($diff->h*60) + ($diff->d *24*60);

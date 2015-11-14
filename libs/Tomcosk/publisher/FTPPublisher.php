@@ -1,6 +1,6 @@
 <?php
-namespace publisher;
-use \Config as c;
+namespace Tomcosk\publisher;
+use Tomcosk\Config as c;
 
 /**
 * 

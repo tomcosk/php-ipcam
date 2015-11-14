@@ -2,7 +2,7 @@
 /**
  * Thanks to David Barnes on php.net
  */
-namespace libs;
+namespace Tomcosk\libs;
 
 class SFTPConnection
 {

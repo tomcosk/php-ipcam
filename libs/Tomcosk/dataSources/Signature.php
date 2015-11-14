@@ -1,5 +1,5 @@
-<?
-namespace dataSources;
+<?php
+namespace Tomcosk\dataSources;
 
 use \Imagick;
 
@@ -13,7 +13,7 @@ class Signature extends DataSource
 	protected $html;
 	protected $name = "Signature Plavba.sk";
 	protected $description = "Podpis plavba.sk, resp. logo";
-	protected $image = "dataSources/logo-plavba.png";
+	protected $image = "libs/Tomcosk/dataSources/logo-plavba.png";
 
 	function __construct()
 	{

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "usmanhalalit/pixie": "1.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Tomcosk": "libs/"
+        }
+    }
+}

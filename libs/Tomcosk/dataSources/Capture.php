@@ -1,16 +1,16 @@
-<?
-namespace dataSources;
+<?php
+namespace Tomcosk\dataSources;
 
 /**
 * Signature datasource to add watermark
 */
-class CaptureJpeg extends DataSource
+class Capture extends DataSource
 {
 
 	protected $url;	
 	protected $html;
-	protected $name = "CaptureJpeg";
-	protected $description = "Capture frame from JPEG URL";
+	protected $name = "Capture";
+	protected $description = "Capture frame";
 
 	function __construct($url)
 	{
@@ -38,14 +38,14 @@ class CaptureJpeg extends DataSource
 	public function apply($options) {
 		$folder = $options["folder"];
 		$filename = $options["filename"];
-		$opts=array(
-		    "ssl"=>array(
-		    "verify_peer"=>false,
-		    "verify_peer_name"=>false,
-		    ),
-		); 		
-		file_put_contents($folder."/".$filename, fopen($this->url, 'r', false, stream_context_create($opts)));
-		$this->log($this->url, 2);
+		$cmd = "avconv -rtsp_transport tcp -i ".$this->url." -f image2 -async 1 -vcodec mjpeg -vframes 1 -y $folder/$filename"; 
+		exec($cmd, $out, $ret);
+		$this->log($cmd, 2);
+		$this->log("exit code: $ret", 2);
+		if ($ret > 0) {
+			$this->log("Something goes wrong. Exit code: $ret", 1, "red");
+			return false;
+		}
 		$this->log("Frame captured");
 		return true;
 	}

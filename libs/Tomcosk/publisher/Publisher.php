@@ -4,7 +4,7 @@
  * Abstract Publisher class
  *
  */
-namespace publisher;
+namespace Tomcosk\publisher;
 
 abstract class Publisher
 {

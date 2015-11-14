@@ -4,9 +4,9 @@
  * Publisher for uploading file to a SFTP (secure FTP)
  *
  */
-namespace publisher;
-use \Config as c;
-use libs\SFTPConnection;
+namespace Tomcosk\publisher;
+use Tomcosk\Config as c;
+use Tomcosk\SFTPConnection;
 
 class SFTPPublisher extends Publisher
 {

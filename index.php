@@ -1,32 +1,36 @@
 <?php
 date_default_timezone_set("Europe/Bratislava");
-require_once 'autoload.php';
-use Config as c;
+//require_once 'autoload.php';
+require 'vendor/autoload.php';
+use Tomcosk\Config as c;
 
-$cam = new \Ipcam();
+$cam = new \Tomcosk\Ipcam();
 $cam->setDebug(1);
-$cam->addDataSource(new \dataSources\Capture("rtsp://192.168.1.161:554/11"));
+
+$cam->addDataSource(new Tomcosk\dataSources\CaptureJpeg("http://localhost/livecamera.jpg"));
+//$cam->addDataSource(new \dataSources\Capture("rtsp://192.168.1.161:554/11"));
 //$cam->addDataSource(new \dataSources\Facedetect());
-$cam->addDataSource(new \dataSources\Background())
+$cam->addDataSource(new Tomcosk\dataSources\Background())
 		->setPosX(0)
 		->setPosY(0)
 		->setWidth(230)
 		->setHeight(250)
 		->setFillColor("#ffffff99");	// last two chars are alpha channel (transparency)
-$cam->addDataSource(new \dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni_28.htm'))
+$cam->addDataSource(new Tomcosk\dataSources\Povodia('http://www.povodia.sk/bh/sk/mereni_28.htm'))
+        ->setStorageConnection($connection = new \Pixie\Connection('mysql', c::get("DB")))
 		->setPosX(10)
 		->setPosY(10)
 		->setFontSize(20);
 
 //$cam->addDataSource(new \dataSources\Weather('http://www.yr.no/place/Slovakia/Košice/Vinné/forecast.xml'))
-$cam->addDataSource(new \dataSources\OpenWeatherMap('http://api.openweathermap.org/data/2.5/weather?id=723224&units=metric'))
+$cam->addDataSource(new Tomcosk\dataSources\OpenWeatherMap('http://api.openweathermap.org/data/2.5/weather?id=723224&units=metric', c::get("openWeatherApiKey")))
 		->setAPIKey(c::get("openWeatherApiKey"))
 		->setPosX(10)
 		->setPosY(70)
 		->setFontSize(20);
-$cam->addDataSource(new \dataSources\Signature());
+$cam->addDataSource(new Tomcosk\dataSources\Signature());
 
-$cam->setPublisher(new publisher\SFTPPublisher());
+//$cam->setPublisher(new publisher\SFTPPublisher());
 
 while (true) {
 	$time = $cam->composeImage()->publish();
