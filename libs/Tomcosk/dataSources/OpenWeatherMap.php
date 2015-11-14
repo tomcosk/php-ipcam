@@ -33,7 +33,7 @@ class OpenWeatherMap extends DataSource
 	public function setUrl($url) {
 		$this->url = $url;
 //		echo $this->url;
-		$this->getFreshData();
+//		$this->getFreshData();
 		return $this;
 	}
 
@@ -68,10 +68,27 @@ class OpenWeatherMap extends DataSource
 		fclose($handle);
 
 		$this->lastUpdated = new DateTime();
+		if (!empty($this->getStorage())) {
+			$data = [
+				"stat_id" => 1,
+				"value" => $this->getValue()["temp"],
+				"created" => date('Y-m-d H:i:s')
+			];
+			$insertId = $this->getStorage()->table('stat_values')->insert($data);
+			if (!empty($insertId)) {
+				$this->log("Value saved to DB");
+			} else {
+				$this->log("Value NOT saved to DB");
+			}
+		}
+
 		$this->log("Getting fresh data");
 	}
 
 	public function apply($options) {
+        if(empty($this->lastUpdated)) {
+            $this->getFreshData();
+        }
 
 		$currentTime =new DateTime();
 		$diff=$currentTime->diff($this->lastUpdated);
