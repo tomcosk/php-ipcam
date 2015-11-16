@@ -16,6 +16,15 @@ abstract class DataSource
 	public $cacheTimeMin = 10;
 	protected $storage = null;
 	protected $storageConnection = null;
+	protected $storageEnabled = [];
+
+	/**
+	 * @return array
+	 */
+	public function getStorageEnabled()
+	{
+		return $this->storageEnabled;
+	}
 	protected $debug = 1;
 	protected $colors = [
 					"black" => "\033[30m",
@@ -29,21 +38,41 @@ abstract class DataSource
 
 	}
 
-	public function setStorageConnection($conn) {
-		$this->storageConnection = $conn;
-		$this->setStorage(new \Pixie\QueryBuilder\QueryBuilderHandler($conn));
+	public function setStorageConnection($driver, $config, $num = 0) {
+		try {
+			$this->storageConnection = new \Pixie\Connection($driver, $config);
+		} catch (\PDOException $e) {
+			if ($num < 1) {
+				sleep(1);
+				$this->log("Trying to reconnect ... $num");
+				$num++;
+				$this->setStorageConnection($driver, $config, $num);
+			}
+		}
+
+		if(!empty($this->storageConnection)) {
+			$this->setStorage(new \Pixie\QueryBuilder\QueryBuilderHandler($this->storageConnection));
+			$this->storageEnabled = ["driver"=>$driver, "config"=>$config];
+		}
 		return $this;
 	}
 
-	public function enableStorage($config = null) {
-		if (empty($config)) {
-			$config = c::get("DB");
+	protected function saveToDb($table, $data, $num=0) {
+		try {
+			$insertId = $this->getStorage()->table($table)->insert($data);
+		} catch (\PDOException $e) {
+			if($e->getCode() == "HY000") {
+				$this->log("trying to recconect ...");
+				$this->setStorageConnection("mysql", c::get("DB"));
+			}
+			$this->log("Error: ".$e->getMessage());
 		}
-		new \Pixie\Connection('mysql', $config, 'QB');
-		$row = QB::table('stats')->find(3);
-		var_dump($row);
+		if (!empty($insertId)) {
+			$this->log("Value saved to DB");
+		} else {
+			$this->log("Value NOT saved to DB");
+		}
 
-		return $this;
 	}
 
 	/**

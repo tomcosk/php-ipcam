@@ -1,6 +1,7 @@
 <?php
 namespace Tomcosk\dataSources;
 use DateTime;
+use Tomcosk\Config as c;
 /**
 * Povodia datasource
 */
@@ -11,7 +12,7 @@ class Povodia extends DataSource
 	protected $html;
 	protected $name = "Povodia";
 	protected $description = "Aktualne hladina zo stranky povodia.sk";
-	public $cacheTimeMin = 720;	// 12 hours
+	public $cacheTimeMin = 1;	// 12 hours
 	protected $lastUpdated;
 	protected $fontSize = 20;
 	protected $posX = 0;
@@ -61,18 +62,16 @@ class Povodia extends DataSource
 	protected function getFreshData() {
 		$this->html = file_get_html($this->url);
 		$this->lastUpdated = new DateTime();
+		$storageConfig = $this->getStorageEnabled();	// if enabled then we have full DB config there
 		if (!empty($this->getStorage())) {
 			$data = [
 				"stat_id" => 3,
 				"value" => $this->getValue(),
 				"created" => date('Y-m-d H:i:s')
 			];
-			$insertId = $this->getStorage()->table('stat_values')->insert($data);
-			if (!empty($insertId)) {
-				$this->log("Value saved to DB");
-			} else {
-				$this->log("Value NOT saved to DB");
-			}
+			$this->saveToDb("stat_values", $data);
+		} else if (!empty($storageConfig)) {
+			$this->setStorageConnection($storageConfig["driver"], $storageConfig["config"]);
 		}
 		$this->log("Getting fresh data");
 	}

@@ -74,12 +74,9 @@ class OpenWeatherMap extends DataSource
 				"value" => $this->getValue()["temp"],
 				"created" => date('Y-m-d H:i:s')
 			];
-			$insertId = $this->getStorage()->table('stat_values')->insert($data);
-			if (!empty($insertId)) {
-				$this->log("Value saved to DB");
-			} else {
-				$this->log("Value NOT saved to DB");
-			}
+			$this->saveToDb("stat_values", $data);
+		} else if (!empty($storageConfig)) {
+			$this->setStorageConnection($storageConfig["driver"], $storageConfig["config"]);
 		}
 
 		$this->log("Getting fresh data");
