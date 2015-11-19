@@ -46,17 +46,22 @@ class Povodia extends DataSource
 	}
 
 	public function getValue() {
-		$tables = $this->html->find('html body table tbody tr td table tbody tr td table');
-		$tr = $tables[3]->find("tr");
-		unset($tr[0]);
-		foreach ($tr as $key => $value) {
-			$datum = trim(str_replace("&nbsp;", " ", strip_tags($value->find("td")[0]->innertext)));
-			$date = DateTime::createFromFormat('d.m.y H:i', $datum);
-			$ar["value"] = trim(str_replace(",", ".", str_replace("&nbsp;", " ", strip_tags($value->find("td")[1]->innertext))));
-			$ar["date"] = $date;
-			$stav[] = $ar;
+		if(!empty($this->html)) {
+			$tables = $this->html->find('html body table tbody tr td table tbody tr td table');
+			$tr = $tables[3]->find("tr");
+			unset($tr[0]);
+			foreach ($tr as $key => $value) {
+				$datum = trim(str_replace("&nbsp;", " ", strip_tags($value->find("td")[0]->innertext)));
+				$date = DateTime::createFromFormat('d.m.y H:i', $datum);
+				$ar["value"] = trim(str_replace(",", ".", str_replace("&nbsp;", " ", strip_tags($value->find("td")[1]->innertext))));
+				$ar["date"] = $date;
+				$stav[] = $ar;
+			}
+			return $stav[0]["value"];
+		} else {
+			$this->log("ERROR getting value for povodia");
+			return 0;
 		}
-		return $stav[0]["value"];
 	}
 
 	protected function getFreshData() {

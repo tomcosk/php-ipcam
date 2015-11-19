@@ -68,7 +68,7 @@ class Background extends DataSource
 	//		$src1->setImageArtifact('compose:args', "1,0,-0.5,0.5");
 			$src1->compositeImage($bg, Imagick::COMPOSITE_DEFAULT, $this->posX, $this->posY);
 			$src1->writeImage($folder."/".$filename);
-			$this->log("Added watermark");
+			$this->log("Added background");
 			return true;
 		} catch(\ImagickException $e) {
 			$this->log($e->getMessage());
