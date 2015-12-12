@@ -13,7 +13,7 @@ class CaptureJpeg extends DataSource
 	protected $name = "CaptureJpeg";
 	protected $description = "Capture frame from JPEG URL";
 
-	function __construct($url, $type="image")
+	function __construct($url, $type="image", $host=null)
 	{
 		$this->setUrl($url);
 		$this->type = $type;
@@ -46,7 +46,7 @@ class CaptureJpeg extends DataSource
 			$pattern = '/"([^"]+)"/';
 			$url = preg_match($pattern, $url[0], $matches);
 			$url = $matches[1];
-			$this->setUrl($url);
+			$this->setUrl($host.$url);
 		}
 
 		$opts=array(
