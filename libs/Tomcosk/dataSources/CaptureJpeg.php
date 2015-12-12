@@ -10,6 +10,7 @@ class CaptureJpeg extends DataSource
 	protected $url;	
 	protected $html;
 	protected $type = null;
+	protected $host = null;
 	protected $name = "CaptureJpeg";
 	protected $description = "Capture frame from JPEG URL";
 
@@ -17,6 +18,7 @@ class CaptureJpeg extends DataSource
 	{
 		$this->setUrl($url);
 		$this->type = $type;
+		$this->host = $host;
 		return $this;
 	}
 
@@ -46,7 +48,7 @@ class CaptureJpeg extends DataSource
 			$pattern = '/"([^"]+)"/';
 			$url = preg_match($pattern, $url[0], $matches);
 			$url = $matches[1];
-			$this->setUrl($host.$url);
+			$this->setUrl($this->host.$url);
 		}
 
 		$opts=array(
@@ -57,7 +59,7 @@ class CaptureJpeg extends DataSource
 		);
 		file_put_contents($folder."/".$filename, fopen($this->url, 'r', false, stream_context_create($opts)));
 		$this->log($this->url, 2);
-		$this->log("Frame captured");
+		$this->log("Frame captured from ".$this->url);
 		return true;
 	}
 }
