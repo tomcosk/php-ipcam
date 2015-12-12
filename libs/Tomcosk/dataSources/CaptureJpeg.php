@@ -42,13 +42,13 @@ class CaptureJpeg extends DataSource
 	public function apply($options) {
 		$folder = $options["folder"];
 		$filename = $options["filename"];
-
+		$newUrl = $this->url;
 		if($this->type == "url") {
 			$url = file($this->url);
 			$pattern = '/"([^"]+)"/';
 			$url = preg_match($pattern, $url[0], $matches);
 			$url = $matches[1];
-			$this->setUrl($this->host.$url);
+			$newUrl = $this->host.$url;
 		}
 
 		$opts=array(
@@ -57,7 +57,7 @@ class CaptureJpeg extends DataSource
 		    "verify_peer_name"=>false,
 		    ),
 		);
-		file_put_contents($folder."/".$filename, fopen($this->url, 'r', false, stream_context_create($opts)));
+		file_put_contents($folder."/".$filename, fopen($newUrl, 'r', false, stream_context_create($opts)));
 		$this->log($this->url, 2);
 		$this->log("Frame captured from ".$this->url);
 		return true;
