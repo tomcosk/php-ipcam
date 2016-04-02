@@ -67,6 +67,32 @@ class OpenWeatherMap extends DataSource
 		$this->json = stream_get_contents($handle);
 		fclose($handle);
 
+		/* post data to rest api */
+		$values = $this->getValue();
+		$url = c::get('APIUrl');
+		$data = array(
+			'tempOutside' => $values["temp"],
+			'windSpeed' => $values['windSpeed'],
+			'windDir' => $values['windDir'],
+		);
+
+// use key 'http' even if you send the request to https://...
+		$options = array(
+			'http' => array(
+				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method'  => 'POST',
+				'content' => http_build_query($data)
+			)
+		);
+		$context  = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+		if ($result === FALSE) {
+			/* Handle error */
+		}
+
+		$this->log("REST: ".$result);
+
+
 		$this->lastUpdated = new DateTime();
 		if (!empty($this->getStorage())) {
 			$data = [
