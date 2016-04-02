@@ -67,6 +67,27 @@ class Povodia extends DataSource
 	protected function getFreshData() {
 		$this->html = file_get_html($this->url);
 		$this->lastUpdated = new DateTime();
+
+		/* post data to rest api */
+		$url = c::get('APIUrl');
+		$data = array('water' => $this->getValue());
+
+// use key 'http' even if you send the request to https://...
+		$options = array(
+			'http' => array(
+				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method'  => 'POST',
+				'content' => http_build_query($data)
+			)
+		);
+		$context  = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+		if ($result === FALSE) {
+			/* Handle error */
+		}
+
+		var_dump($result);
+
 		$storageConfig = $this->getStorageEnabled();	// if enabled then we have full DB config there
 		if (!empty($this->getStorage())) {
 			$data = [

@@ -15,6 +15,7 @@ class Config {
 							"filename" => "cam.jpg",
 							"openWeatherApiKey" => "Your_Key_Here",
 							"sleep" => 5,	// do it every number of seconds
+							"APIUrl" => 'http://example.com/api',
 							"DB" => array(
 									'driver'    => 'mysql', // Db driver
 									'host'      => 'localhost',
