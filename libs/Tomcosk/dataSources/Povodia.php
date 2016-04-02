@@ -12,7 +12,7 @@ class Povodia extends DataSource
 	protected $html;
 	protected $name = "Povodia";
 	protected $description = "Aktualne hladina zo stranky povodia.sk";
-	public $cacheTimeMin = 1;	// 12 hours
+	public $cacheTimeMin = 720;	// 12 hours
 	protected $lastUpdated;
 	protected $fontSize = 20;
 	protected $posX = 0;
