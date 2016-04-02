@@ -1,6 +1,7 @@
 <?php
 namespace Tomcosk\dataSources;
 use DateTime;
+use Tomcosk\Config as c;
 
 /**
 * Weather datasource
