@@ -86,7 +86,7 @@ class Povodia extends DataSource
 			/* Handle error */
 		}
 
-		var_dump($result);
+		$this->log("REST: ".$result);
 
 		$storageConfig = $this->getStorageEnabled();	// if enabled then we have full DB config there
 		if (!empty($this->getStorage())) {
